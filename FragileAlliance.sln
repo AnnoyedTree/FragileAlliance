@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FragileAlliance", "FragileAlliance\FragileAlliance.csproj", "{4FE8A57B-E5BC-4C6C-A38C-1161561260F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FragileAllianceServer", "FragileAllianceServer\FragileAllianceServer.csproj", "{A3629C67-5247-4D1C-9599-C57623466533}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4FE8A57B-E5BC-4C6C-A38C-1161561260F7} = {4FE8A57B-E5BC-4C6C-A38C-1161561260F7}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FE8A57B-E5BC-4C6C-A38C-1161561260F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE8A57B-E5BC-4C6C-A38C-1161561260F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE8A57B-E5BC-4C6C-A38C-1161561260F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE8A57B-E5BC-4C6C-A38C-1161561260F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3629C67-5247-4D1C-9599-C57623466533}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3629C67-5247-4D1C-9599-C57623466533}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3629C67-5247-4D1C-9599-C57623466533}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3629C67-5247-4D1C-9599-C57623466533}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA4B76CB-911F-4081-883B-0BCB42C4A70F}
+	EndGlobalSection
+EndGlobal

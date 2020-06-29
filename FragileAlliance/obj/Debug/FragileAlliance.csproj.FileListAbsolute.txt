@@ -1,0 +1,6 @@
+G:\FXServer\server-data\resources\[gamemodes]\fragile-alliance\FragileAlliance.net.dll
+G:\FXServer\server-data\resources\[gamemodes]\fragile-alliance\FragileAlliance.net.pdb
+C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAlliance.csproj.CoreCompileInputs.cache
+C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAlliance.csproj.CopyComplete
+C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAlliance.net.dll
+C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAlliance.net.pdb
