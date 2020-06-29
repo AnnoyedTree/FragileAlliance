@@ -1,4 +1,5 @@
 ﻿using CitizenFX.Core;
+using CitizenFX.Core.Native;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,20 +89,33 @@ namespace FragileAllianceServer
 
         public static void AddGameEntity(int netID, string eventID, int amount)
         {
+            Debug.WriteLine($"[FA] Game Entity Added: {netID}, {eventID}");
+
             GameEntity gameEnt = new GameEntity(netID, eventID, amount);
             GameEntities.Add(netID, gameEnt);
 
             TriggerClientEvent("fa:addNewEventEntity", netID, eventID, amount);
         }
 
+        public static void RemoveGameEntity(int netID)
+        {
+            Debug.WriteLine($"[FA] Game Entity Removed: {netID}");
+
+            if (GameEntities.ContainsKey(netID))
+                 GameEntities.Remove(netID);
+        }
+
         public static void RequestEntityPickup(Player player, int netID)
         {
+            RemoveGameEntity(netID);
+
             if (!GameEntities.ContainsKey(netID))
                 return;
 
-            GameEntities.Remove(netID);
-
             GameEntity gameEnt = GameEntities[netID];
+            if (gameEnt == null)
+                return;
+
             TriggerClientEvent(player, "fa:pickupGameEntity", netID, gameEnt.Amount);
             TriggerClientEvent("fa:removeGameEntity", netID);
         }
@@ -123,7 +137,6 @@ namespace FragileAllianceServer
             if (Scoreboard.ContainsKey(serverID))
                 Scoreboard[serverID].TeamID = (int)Teams.TEAM_POLICE;
 
-            Debug.WriteLine($"[FA] NumCrims -> {GetNumCriminals()}");
             if (GetNumCriminals() <= 0)
             {
                 GameRules.SetGameState(GameStates.STATE_DONE);
@@ -131,6 +144,15 @@ namespace FragileAllianceServer
             }
 
             TriggerClientEvent(victim, "h:onPlayerDied");
+        }
+
+        public static void CleanupGameEntities()
+        {
+            foreach (KeyValuePair<int, GameEntity> entry in GameEntities.ToList())
+            {
+                if (GameEntities.ContainsKey(entry.Key))
+                    GameEntities.Remove(entry.Key);
+            }
         }
 
         public static int GetNumberPlayers()

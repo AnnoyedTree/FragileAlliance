@@ -27,6 +27,7 @@ namespace FragileAlliance
             EventHandlers["fa:addNewEventEntity"] += new Action<int,  string, int>(Arenas.AddGameEntity);
             EventHandlers["fa:pickupGameEntity"] += new Action<int, int>(Arenas.PickupGameEntity);
             EventHandlers["fa:removeGameEntity"] += new Action<int>(Arenas.RemoveGameEntity);
+            EventHandlers["fa:cleanupGameEntities"] += new Action(Arenas.CleanupGameEntities);
 
             // NetMessenger Net Messages
             EventHandlers["fa:pingForHost"] += new Action(PingForHost);

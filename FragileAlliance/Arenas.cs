@@ -152,6 +152,21 @@ namespace FragileAlliance
                 gameEntities.Remove(netID);
         }
 
+        public static void CleanupGameEntities()
+        {
+            foreach (KeyValuePair<int, GameEntity> entry in GetGameEntities().ToList())
+            {
+                if (NetworkDoesNetworkIdExist(entry.Key))
+                {
+                    int entID = NetworkGetEntityFromNetworkId(entry.Key);
+                    DeleteEntity(ref entID);
+                }
+
+                if (gameEntities.ContainsKey(entry.Key))
+                    gameEntities.Remove(entry.Key);
+            }
+        }
+
         public static Dictionary<int, GameEntity> GetGameEntities()
         {
             return gameEntities;

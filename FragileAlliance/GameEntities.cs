@@ -80,5 +80,10 @@ namespace FragileAlliance
 
             return NetworkGetEntityFromNetworkId(cashBagID);
         }
+
+        public static void ResetCarryBag()
+        {
+            cashBagID = 0;
+        }
     }
 }

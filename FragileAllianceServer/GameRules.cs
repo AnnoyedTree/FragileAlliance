@@ -152,6 +152,9 @@ namespace FragileAllianceServer
 
             if (roundCount >= maxRounds)
                 SetGameState(Util.GameStates.STATE_GAMEOVER);
+
+            TriggerClientEvent("fa:cleanupGameEntities");
+            Util.CleanupGameEntities();
         }
 
         // Returns the enum instead of the int

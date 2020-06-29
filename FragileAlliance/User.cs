@@ -165,6 +165,8 @@ namespace FragileAlliance
 
                     int netID = NetworkGetNetworkIdFromEntity(newbag.Handle);
                     TriggerServerEvent("fa:srv_addGameEntity", netID, "money_bag_drop", Cash);
+
+                    GameEntities.ResetCarryBag();
                 }
             }
         }
@@ -248,6 +250,8 @@ namespace FragileAlliance
             SetPlayerInvincible(playerID, true);
             SetEntityCollision(ped, false, false);
             FreezeEntityPosition(ped, true);
+
+            //GameEntities.ResetCarryBag();   // This adds the ability for the player to pick bags back up
         }
 
         private static void onMatchActive(int playerID, int ped)
