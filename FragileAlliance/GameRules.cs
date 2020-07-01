@@ -63,7 +63,7 @@ namespace FragileAlliance
                 if (NetworkDoesNetworkIdExist(entry.Key))
                 {
                     int entID = NetworkGetEntityFromNetworkId(entry.Key);
-                    bool exists = (entID > 0 && DoesEntityExist(entID) && NetworkGetEntityIsNetworked(entID));
+                    bool exists = (entID > 0 && DoesEntityExist(entID));
                     if (exists)
                     {
                         string id = entities[entry.Key].ID;

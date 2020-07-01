@@ -107,14 +107,14 @@ namespace FragileAllianceServer
 
         public static void RequestEntityPickup(Player player, int netID)
         {
-            RemoveGameEntity(netID);
-
             if (!GameEntities.ContainsKey(netID))
                 return;
 
             GameEntity gameEnt = GameEntities[netID];
             if (gameEnt == null)
                 return;
+
+            RemoveGameEntity(netID);
 
             TriggerClientEvent(player, "fa:pickupGameEntity", netID, gameEnt.Amount);
             TriggerClientEvent("fa:removeGameEntity", netID);
