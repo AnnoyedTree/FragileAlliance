@@ -15,8 +15,8 @@ namespace FragileAllianceServer
             Util.RemovePlayerFromScoreboard(player);
 
             // All players dropped
-            //if (Util.GetNumberPlayers() <= 0)
-                //GameRules.ResetGameState();
+            if (Util.GetNumberPlayers() <= 0)
+                GameRules.ResetGameState();
         }
 
         public static void OnPlayerConnected([FromSource] Player player)

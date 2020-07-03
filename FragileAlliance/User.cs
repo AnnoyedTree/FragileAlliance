@@ -34,8 +34,6 @@ namespace FragileAlliance
             ShutdownLoadingScreen();
             DoScreenFadeIn(0);
             SetMaxWantedLevel(0);
-
-            Debug.WriteLine($"[FA] Do we have a gamestate?? -> {GameRules.GameState}");
         }
 
         public static void OnPlayerDropped()
@@ -50,11 +48,16 @@ namespace FragileAlliance
 
         public static void AddCash(int amount)
         {
+            int ped = GetPlayerPed(PlayerId());
+
             Cash += amount;
             if (Cash < 0)
                 Cash = 0;
             else if (Cash > 5000)
                 Cash = 5000;
+
+            if (GameEntities.GetCarryBag() == 0 && Cash > 0)
+                GameEntities.PickupBag(ped);
         }
 
         public static bool IsDead()
@@ -175,7 +178,7 @@ namespace FragileAlliance
         {
             string rulesID = "criminal";
             if (team == Util.Teams.TEAM_POLICE)
-                rulesID = "police";
+                rulesID = "cop";
 
             ArenaTeamData rules = GameRules.GetArenaInfo().getTeamData(rulesID);
             if (rules == null)
@@ -197,7 +200,6 @@ namespace FragileAlliance
             SetPedArmour(ped, 100);
 
             Vector3 pos = rules.playerSpawnLocation();
-            Debug.WriteLine(pos.ToString());
             pos.Z = World.GetGroundHeight(pos);
 
             SetEntityCoords(ped, pos.X, pos.Y, pos.Z, false, false, false, false);
@@ -227,11 +229,13 @@ namespace FragileAlliance
                 GiveWeaponToPed(ped, (uint)GetHashKey("WEAPON_NIGHTSTICK"), 0, false, false);
                 GiveWeaponToPed(ped, (uint)GetHashKey("WEAPON_PUMPSHOTGUN"), 120, false, true);
 
+                SetCanAttackFriendly(ped, false, false);
+
                 Team = Util.Teams.TEAM_POLICE;
             }
 
-            SetupTeamRelationships();
             SetPedRelationshipGroupHash(ped, (uint)GetHashKey(rulesID));
+            setupTeamRelationships();
 
             bisDead = false;
         }
@@ -244,14 +248,14 @@ namespace FragileAlliance
 
         private static async void onMatchStarting(int playerID, int ped)
         {
+            GameEntities.ResetCarryBag();
+
             await respawnPlayer(Util.Teams.TEAM_CRIMINAL, playerID, ped);
 
             ped = GetPlayerPed(playerID);
             SetPlayerInvincible(playerID, true);
             SetEntityCollision(ped, false, false);
             FreezeEntityPosition(ped, true);
-
-            //GameEntities.ResetCarryBag();   // This adds the ability for the player to pick bags back up
         }
 
         private static void onMatchActive(int playerID, int ped)
@@ -274,13 +278,13 @@ namespace FragileAlliance
             SetEntityVisible(ped, false, false);
         }
 
-        private static void SetupTeamRelationships()
+        private static void setupTeamRelationships()
         {
             SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("criminal"), (uint)GetHashKey("police"));
             SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("criminal"), (uint)GetHashKey("traitor"));
-            SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("police"), (uint)GetHashKey("criminal"));
-            SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("police"), (uint)GetHashKey("traitor"));
-            SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("traitor"), (uint)GetHashKey("police"));
+            SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("cop"), (uint)GetHashKey("criminal"));
+            SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("cop"), (uint)GetHashKey("traitor"));
+            SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("traitor"), (uint)GetHashKey("cop"));
             SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("traitor"), (uint)GetHashKey("criminal"));
             SetRelationshipBetweenGroups((int)Relationship.Hate, (uint)GetHashKey("traitor"), (uint)GetHashKey("traitor"));
         }

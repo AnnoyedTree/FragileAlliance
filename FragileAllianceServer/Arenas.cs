@@ -24,6 +24,11 @@ namespace FragileAllianceServer
         public List<float> Location;
     }
 
+    class SecurityGaurds
+    {
+        public List<float> SpawnLocation;
+    }
+
     class ArenaData
     {
         public string ID, Title, Theme;
@@ -32,6 +37,8 @@ namespace FragileAllianceServer
 
         [JsonProperty("GameEvents")]
         public List<GameEvent> Events;
+
+        public List<SecurityGaurds> Gaurds;
 
         public List<GameEvent> OnStart;
     }

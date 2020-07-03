@@ -60,6 +60,10 @@ namespace FragileAlliance
                 await BaseScript.Delay(1);
 
             Ped ped = new Ped(API.CreatePed((int)pedtype, hash, pos.X, pos.Y, pos.Z, heading, true, false));
+
+            NetworkRegisterEntityAsNetworked(ped.Handle);
+            SetNetworkIdExistsOnAllMachines(ped.NetworkId, true);
+
             return ped;
         }
 
@@ -83,6 +87,7 @@ namespace FragileAlliance
             prop.Rotation = new Vector3(0, 0, rotation);
 
             NetworkRegisterEntityAsNetworked(prop.Handle);
+            SetNetworkIdExistsOnAllMachines(prop.NetworkId, true);
 
             return prop;
         }
@@ -99,6 +104,7 @@ namespace FragileAlliance
 
             Vehicle veh = new Vehicle(API.CreateVehicle(hash, pos.X, pos.Y, pos.Z, heading, true, true));
             NetworkRegisterEntityAsNetworked(veh.Handle);
+            SetNetworkIdExistsOnAllMachines(veh.NetworkId, true);
 
             return veh;
         }

@@ -4,4 +4,3 @@ C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAll
 C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAlliance.csproj.CopyComplete
 C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAlliance.net.dll
 C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAlliance.net.pdb
-C:\Users\brian\source\repos\FragileAlliance\FragileAlliance\obj\Debug\FragileAlliance.csprojAssemblyReference.cache

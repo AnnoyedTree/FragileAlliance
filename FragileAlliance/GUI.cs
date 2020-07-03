@@ -34,10 +34,10 @@ namespace FragileAlliance
         private static void DeveloperGUI()
         {
             //Header
-            int x = (int)(ScreenX * 1.0);
-            int y = (int)(ScreenY * 1.0);
+            int x = (int)(ScreenX * 0.01);
+            int y = (int)(ScreenY * 0.8);
 
-            Text entsHeader = new Text("Active Game-Related Entities", new PointF(x,y), 0.3f);
+            Text entsHeader = new Text("Active Game-Related Entities", new PointF(x, y), 0.3f);
             entsHeader.Color = Color.FromArgb(255, 255, 255, 255);
             entsHeader.Draw();
 
@@ -45,11 +45,25 @@ namespace FragileAlliance
             foreach (KeyValuePair<int, GameEntity> entry in gameEnts)
             {
                 y += (int)(ScreenY * 0.03);
-
-                Text gameEnt = new Text($"[{entry.Value.ID}] = {entry.Key}, {entry.Value.Amount}", new PointF(x,y), 0.2f);
-                gameEnt.Color = Color.FromArgb(255, 120, 120, 120);
-                gameEnt.Draw();
+                textWithShadow($"[{entry.Value.ID}] = {entry.Key}, {entry.Value.Amount}", new PointF(x, y), Color.FromArgb(255, 120, 120, 120), 0.2f);
             }
+
+            // Cash
+            x = (int)(ScreenX * 0.25);
+            y = (int)(ScreenY * 1.35);
+
+            textWithShadow($"$ {User.Cash}", new PointF(x, y), Color.FromArgb(255, 120, 255, 120), 0.2f);
+        }
+
+        private static void textWithShadow(string text, PointF pos, Color color, float scale)
+        {
+            Text textShadow = new Text(text, new PointF(pos.X + 0.25f, pos.Y + 0.25f), scale);
+            textShadow.Color = Color.FromArgb(255, 0, 0, 0);
+            textShadow.Draw();
+
+            Text textDraw = new Text(text, pos, scale);
+            textDraw.Color = color;
+            textDraw.Draw();
         }
     }
 }

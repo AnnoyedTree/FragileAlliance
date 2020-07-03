@@ -26,23 +26,18 @@ namespace FragileAlliance
             }
         }
 
-        private static async void cashCrate(int entID)
+        private static void cashCrate(int entID)
         {
             int ped = GetPlayerPed(PlayerId());
 
             float dist = EntityUtil.GetDistance(ped, entID, true);
             if (dist <= 2)
             {
-                if (cashBagID == 0)
-                    PickupBag(ped);
-                else
+                int time = GetGameTimer();
+                if (time > cashDelay)
                 {
-                    int time = GetGameTimer();
-                    if (time > cashDelay)
-                    {
-                        User.AddCash(5);
-                        cashDelay = time + 500;
-                    }
+                    User.AddCash(50);
+                    cashDelay = time + 500;
                 }
             }
         }

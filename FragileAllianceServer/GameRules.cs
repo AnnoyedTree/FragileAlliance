@@ -57,8 +57,10 @@ namespace FragileAllianceServer
                     case Util.GameStates.STATE_COOLDOWN:
                         SetGameState(Util.GameStates.STATE_STARTING);
                         break;
+                    case Util.GameStates.STATE_GAMEOVER:
+                        SetGameState(Util.GameStates.STATE_WAITING);
+                        break;
                 }
-
             }
             await Delay(1000);
         }
@@ -70,6 +72,7 @@ namespace FragileAllianceServer
             switch (state)
             {
                 case Util.GameStates.STATE_WAITING:
+                    onStateWaiting();
                     break;
                 case Util.GameStates.STATE_STARTING:
                     onStateStarting();
@@ -83,6 +86,7 @@ namespace FragileAllianceServer
                 case Util.GameStates.STATE_COOLDOWN:
                     break;
                 case Util.GameStates.STATE_GAMEOVER:
+                    onStateGameOver();
                     return;
             }
             TriggerClientEvent("fa:setGameState", GameState, timeLeft, roundCount, maxRounds, arenaID);
@@ -90,20 +94,21 @@ namespace FragileAllianceServer
 
         public static void SendGameState(Player player)
         {
-            TriggerClientEvent("fa:setGameState", GameState, timeLeft, roundCount, maxRounds, arenaID);
+            TriggerClientEvent(player, "fa:setGameState", GameState, timeLeft, roundCount, maxRounds, arenaID);
         }
 
-        public static void ResetGameState()
+        public static void ResetGameState(bool reset = true)
         {
             // Get new arena, maybe they dropped because the map sucks
             string arena = Arenas.GetRandomArena().ID;
             arenaID = arena;
 
-            GameState = (int)Util.GameStates.STATE_WAITING;
+            if (reset)
+                GameState = (int)Util.GameStates.STATE_WAITING;
+
             roundCount = 0;
 
-            Debug.WriteLine($"[FA] All players dropped resetting GameState. New Arena -> {arena}");
-
+            Debug.WriteLine($"[FA] Resetting GameState. New Arena -> {arena}");
         }
 
         // -----------------------------------
@@ -128,6 +133,10 @@ namespace FragileAllianceServer
 
         // GAMERULES NETWORKED FUNCTIONS ENDS
         // ----------------------------------
+        private static void onStateWaiting()
+        {
+            Util.ClearScoreboard();
+        }
 
         private static void onStateStarting()
         {
@@ -155,6 +164,12 @@ namespace FragileAllianceServer
 
             TriggerClientEvent("fa:cleanupGameEntities");
             Util.CleanupGameEntities();
+        }
+
+        private static void onStateGameOver()
+        {
+            timeLeft = 60;
+            ResetGameState(false);
         }
 
         // Returns the enum instead of the int

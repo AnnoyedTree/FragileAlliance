@@ -15,6 +15,40 @@ namespace FragileAlliance
         public List<ArenaData> ArenaList { get; set; }
     }
 
+    public class SecurityGaurds
+    {
+        public List<float> SpawnLocation;
+
+        public async void SpawnGaurds()
+        {
+            Ped gaurd = await EntityCreate.CreatePed(PedHash.Cop01SMY, 6, getSpawnLocation(), getHeading());
+            int handle = gaurd.Handle;
+
+            //PlaceObjectOnGroundProperly(handle);
+            GiveWeaponToPed(gaurd.GetHashCode(), (uint)WeaponHash.Pistol, 120, false, true);
+
+            gaurd.RelationshipGroup = GameRules.relationPolice;
+            gaurd.RelationshipGroup.SetRelationshipBetweenGroups("criminal", Relationship.Hate, true);
+            gaurd.RelationshipGroup.SetRelationshipBetweenGroups("traitor", Relationship.Hate, true);
+            gaurd.RelationshipGroup.SetRelationshipBetweenGroups("cop", Relationship.Like, true);
+
+            //gaurd.Task.FightAgainstHatedTargets(1000.0f);
+            gaurd.Task.WanderAround();
+
+            //SetPedAsNoLongerNeeded(ref handle);
+        }
+
+        private Vector3 getSpawnLocation()
+        {
+            return new Vector3(SpawnLocation[0], SpawnLocation[1], SpawnLocation[2]);
+        }
+
+        private float getHeading()
+        {
+            return SpawnLocation[3];
+        }
+    }
+
     public class ArenaTeamData
     {
         public string ID;
@@ -78,6 +112,9 @@ namespace FragileAlliance
         public List<ArenaTeamData> Teams;
         public List<GameEvent> GameEvents;
 
+        [JsonProperty("Gaurds")]
+        public List<SecurityGaurds> SecurityGaurds;
+
         [JsonProperty("OnStart")]
         public List<GameEvent> StartEvents;
 
@@ -121,6 +158,9 @@ namespace FragileAlliance
             ArenaData data = GameRules.GetArenaInfo();
             foreach (GameEvent events in data.StartEvents)
                 events.SpawnEvent();
+
+            foreach (SecurityGaurds guards in data.SecurityGaurds)
+                guards.SpawnGaurds();
         }
 
         public static void AddGameEntity(int netID, string eventID, int amount)
@@ -164,6 +204,13 @@ namespace FragileAlliance
 
                 if (gameEntities.ContainsKey(entry.Key))
                     gameEntities.Remove(entry.Key);
+            }
+
+            Debug.WriteLine("[FA] Attempting to cleanup Police peds...");
+            foreach (Ped ped in World.GetAllPeds())
+            {
+                int pedID = ped.Handle;
+                DeleteObject(ref pedID);
             }
         }
 

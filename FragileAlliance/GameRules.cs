@@ -10,6 +10,8 @@ namespace FragileAlliance
 {
     class GameRules : BaseScript
     {
+        public static RelationshipGroup relationCriminal, relationPolice, relationTraitor;
+
         public static string ArenaID;
 
         public static Util.GameStates GameState;
@@ -18,6 +20,10 @@ namespace FragileAlliance
         public GameRules()
         {
             Tick += OnTick;
+
+            relationCriminal = World.AddRelationshipGroup("criminal");
+            relationPolice = World.AddRelationshipGroup("cop");
+            relationTraitor = World.AddRelationshipGroup("traitor");
         }
 
         public static void SetGameState(int state, int time, int rounds, int maxRounds, string arenaID)
@@ -43,7 +49,8 @@ namespace FragileAlliance
                     tickGameActive();
                     break;
             }
-            await Delay(1);
+
+            await Delay(1000);
         }
 
         public static ArenaData GetArenaInfo()
