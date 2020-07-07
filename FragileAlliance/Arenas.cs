@@ -210,6 +210,7 @@ namespace FragileAlliance
             foreach (Ped ped in World.GetAllPeds())
             {
                 int pedID = ped.Handle;
+                SetPedAsNoLongerNeeded(ref pedID);
                 DeleteObject(ref pedID);
             }
         }

@@ -81,6 +81,7 @@ namespace FragileAlliance
         public static void ResetCarryBag()
         {
             cashBagID = 0;
+            User.Cash = 0;
         }
     }
 }

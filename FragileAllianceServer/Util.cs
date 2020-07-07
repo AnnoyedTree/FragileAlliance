@@ -157,6 +157,9 @@ namespace FragileAllianceServer
 
         public static void ClearScoreboard()
         {
+            if (Scoreboard == null || Scoreboard.Count <= 0)
+                return;
+
             foreach(KeyValuePair<int, PlayersScoreboard> entry in Scoreboard.ToList())
             {
                 if (Scoreboard.ContainsKey(entry.Key))

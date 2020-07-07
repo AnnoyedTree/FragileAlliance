@@ -17,6 +17,8 @@ namespace FragileAlliance
         public static Util.GameStates GameState;
         public static int Time, Rounds, MaxRounds;
 
+        private static int timeDelay;
+
         public GameRules()
         {
             Tick += OnTick;
@@ -41,7 +43,7 @@ namespace FragileAlliance
 
         public async Task OnTick()
         {
-            Time--;
+            tickTime();
 
             switch (GameState)
             {
@@ -50,7 +52,7 @@ namespace FragileAlliance
                     break;
             }
 
-            await Delay(1000);
+            await Delay(1);
         }
 
         public static ArenaData GetArenaInfo()
@@ -78,6 +80,15 @@ namespace FragileAlliance
                     }
                 }
             }
+        }
+
+        private static void tickTime()
+        {
+            if (timeDelay < GetGameTimer())
+                return;
+
+            Time--;
+            timeDelay = (GetGameTimer() + 1000);
         }
     }
 }
