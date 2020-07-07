@@ -53,6 +53,13 @@ namespace FragileAlliance
             y = (int)(ScreenY * 1.35);
 
             textWithShadow($"$ {User.Cash}", new PointF(x, y), Color.FromArgb(255, 120, 255, 120), 0.2f);
+
+            //Timeleft
+            x = (int)(ScreenX * 0.8);
+            y = (int)(ScreenY * 1.35);
+
+            TimeSpan time = TimeSpan.FromSeconds(GameRules.Time);
+            textWithShadow($"Timeleft: {time.ToString(@"mm\:ss")}", new PointF(x,y), Color.FromArgb(255, 255, 255, 255), 0.3f);
         }
 
         private static void textWithShadow(string text, PointF pos, Color color, float scale)

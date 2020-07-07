@@ -84,11 +84,11 @@ namespace FragileAlliance
 
         private static void tickTime()
         {
-            if (timeDelay < GetGameTimer())
+            if (timeDelay > GetGameTimer())
                 return;
 
             Time--;
-            timeDelay = (GetGameTimer() + 1000);
+            timeDelay = (GetGameTimer() + 1010);
         }
     }
 }

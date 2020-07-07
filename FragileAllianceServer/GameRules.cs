@@ -131,6 +131,11 @@ namespace FragileAllianceServer
             Util.RequestEntityPickup(player, netID);
         }
 
+        public static void RemoveCopEntity([FromSource]Player player, int netID)
+        {
+            Util.RemoveGameEntity(netID);
+        }
+
         // GAMERULES NETWORKED FUNCTIONS ENDS
         // ----------------------------------
         private static void onStateWaiting()

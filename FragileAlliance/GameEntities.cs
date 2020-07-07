@@ -13,6 +13,8 @@ namespace FragileAlliance
         private static int cashDelay;
         private static int cashBagID = 0;
 
+        private static int copCheck;
+
         public static void HandleEntities(string eventID, int entID)
         {
             switch (eventID)
@@ -22,6 +24,9 @@ namespace FragileAlliance
                     break;
                 case "money_bag_drop":
                     moneyBag(entID);
+                    break;
+                case "cop_ped":
+                    checkCop(entID);
                     break;
             }
         }
@@ -68,6 +73,18 @@ namespace FragileAlliance
 
             SetPedRelationshipGroupHash(ped, (uint)GetHashKey("traitor"));
             SetCanAttackFriendly(ped, true, true);
+        }
+
+        private static void checkCop(int entID)
+        {
+            if (copCheck > GetGameTimer() || !NetworkGetEntityIsNetworked(entID))
+                return;
+
+            int netID = NetworkGetNetworkIdFromEntity(entID);
+            if (DoesEntityExist(entID) && GetEntityHealth(entID) <= 0)
+                TriggerServerEvent("fa:srv_removeCopEntity", netID);
+
+            copCheck = GetGameTimer() + (2 * 1000);
         }
 
         public static int GetCarryBag()

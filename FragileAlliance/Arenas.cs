@@ -32,10 +32,11 @@ namespace FragileAlliance
             gaurd.RelationshipGroup.SetRelationshipBetweenGroups("traitor", Relationship.Hate, true);
             gaurd.RelationshipGroup.SetRelationshipBetweenGroups("cop", Relationship.Like, true);
 
-            //gaurd.Task.FightAgainstHatedTargets(1000.0f);
-            gaurd.Task.WanderAround();
+            gaurd.Task.FightAgainstHatedTargets(1000.0f);
+            //gaurd.Task.WanderAround();
 
             //SetPedAsNoLongerNeeded(ref handle);
+            BaseScript.TriggerServerEvent("fa:srv_addGameEntity", gaurd.NetworkId, "cop_ped", -1);
         }
 
         private Vector3 getSpawnLocation()
@@ -204,14 +205,6 @@ namespace FragileAlliance
 
                 if (gameEntities.ContainsKey(entry.Key))
                     gameEntities.Remove(entry.Key);
-            }
-
-            Debug.WriteLine("[FA] Attempting to cleanup Police peds...");
-            foreach (Ped ped in World.GetAllPeds())
-            {
-                int pedID = ped.Handle;
-                SetPedAsNoLongerNeeded(ref pedID);
-                DeleteObject(ref pedID);
             }
         }
 

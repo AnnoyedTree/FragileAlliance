@@ -18,6 +18,7 @@ namespace FragileAllianceServer
             // GameRules Messages
             EventHandlers["fa:srv_pingForHost"] += new Action<Player>(GameRules.OnPingHost);
             EventHandlers["fa:srv_addGameEntity"] += new Action<Player, int, string, int>(GameRules.AddGameEntity);
+            EventHandlers["fa:srv_removeCopEntity"] += new Action<Player, int>(GameRules.RemoveCopEntity);
             EventHandlers["fa:srv_reqEntityPickup"] += new Action<Player, int>(GameRules.RequestEntityPickup);
 
             // Users Messages

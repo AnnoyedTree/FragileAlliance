@@ -102,7 +102,12 @@ namespace FragileAllianceServer
             Debug.WriteLine($"[FA] Game Entity Removed: {netID}");
 
             if (GameEntities.ContainsKey(netID))
-                 GameEntities.Remove(netID);
+            {
+                if (GameEntities[netID].ID == "cop_ped")
+                    TriggerClientEvent("fa:removeGameEntity", netID);
+
+                GameEntities.Remove(netID);
+            }
         }
 
         public static void RequestEntityPickup(Player player, int netID)
